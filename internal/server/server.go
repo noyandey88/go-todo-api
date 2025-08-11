@@ -6,6 +6,7 @@ import (
 
 	config "github.com/noyandey88/go-todo-app/configs"
 	"github.com/noyandey88/go-todo-app/middleware"
+	"github.com/noyandey88/go-todo-app/routes"
 )
 
 func ConnectServer() {
@@ -14,6 +15,9 @@ func ConnectServer() {
 	port := fmt.Sprintf(":%d", cfg.Server.Port)
 
 	globalRouter := middleware.GlobalRouter(mux)
+
+	// Load all routes
+	routes.RegisterRoutes(mux)
 
 	fmt.Println("Server is running on port", port)
 	err := http.ListenAndServe(port, globalRouter)
