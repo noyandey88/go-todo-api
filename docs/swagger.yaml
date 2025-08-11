@@ -1,12 +1,208 @@
 basePath: /
-host: petstore.swagger.io
+definitions:
+  todo.Todo:
+    properties:
+      completed:
+        type: boolean
+      createdAt:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  todo.TodoCreateRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    required:
+    - description
+    - title
+    type: object
+  todo.TodoUpdateRequest:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    required:
+    - completed
+    - description
+    - id
+    - title
+    type: object
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
+  description: This is a sample server Todos server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-paths: {}
+  termsOfService: http://swagger.io/terms/
+  title: Go Todos API
+  version: "1.0"
+paths:
+  /todos:
+    get:
+      consumes:
+      - application/json
+      description: Get All Todos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/todo.Todo'
+            type: array
+      summary: Get All
+      tags:
+      - todos-controller
+  /todos/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a todo item by its ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/todo.Todo'
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: Todo not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get todo by ID
+      tags:
+      - todos-controller
+  /todos/create:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new todo item
+      parameters:
+      - description: create todo
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/todo.TodoCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/todo.Todo'
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Create Todos Endpoint
+      tags:
+      - todos-controller
+  /todos/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a todo by ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: Todo not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete a todo
+      tags:
+      - todos-controller
+  /todos/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update todo details by ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated todo data
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/todo.TodoUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/todo.Todo'
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "404":
+          description: Todo not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update a todo
+      tags:
+      - todos-controller
 swagger: "2.0"

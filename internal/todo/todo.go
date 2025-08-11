@@ -10,3 +10,15 @@ type Todo struct {
 	// CreatedBy      string `json:"createdBy" gorm:"not null"`
 	// LastModifiedBy string `json:"lastModifiedBy" gorm:"not null"`
 }
+
+type TodoCreateRequest struct {
+	Title       string `json:"title" validate:"required"`
+	Description string `json:"description" validate:"required"`
+}
+
+type TodoUpdateRequest struct {
+	ID          uint   `json:"id" validate:"required"`
+	Title       string `json:"title" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Completed   bool   `json:"completed" validate:"required"`
+}

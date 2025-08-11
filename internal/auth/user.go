@@ -11,12 +11,12 @@ type User struct {
 	Password  string `json:"-" gorm:"not null"`
 }
 
-type Login struct {
+type LoginRequest struct {
 	Username string `json:"username" binding:"required" gorm:"unique;not null"`
 	Password string `json:"password" binding:"required" gorm:"not null"`
 }
 
-type SignUp struct {
+type SignUpRequest struct {
 	FirstName string `json:"firstName" binding:"required" gorm:"not null"`
 	LastName  string `json:"lastName" binding:"required" gorm:"not null"`
 	Email     string `json:"email" binding:"required,email" gorm:"unique;not null"`
