@@ -1,4 +1,4 @@
-package database
+package dbbase
 
 type BaseModel struct {
 	ID        uint  `json:"id" gorm:"primaryKey"`
