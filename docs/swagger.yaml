@@ -1,5 +1,67 @@
 basePath: /
 definitions:
+  auth.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  auth.SignInRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  auth.SignInResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+      tokenType:
+        type: string
+      user:
+        $ref: '#/definitions/user.User'
+    type: object
+  auth.SignOutRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  auth.SignUpRequest:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - firstName
+    - lastName
+    - password
+    type: object
+  response.Response:
+    properties:
+      message:
+        type: string
+      payload: {}
+      status:
+        type: string
+      success:
+        type: boolean
+    type: object
   todo.Todo:
     properties:
       completed:
@@ -41,6 +103,21 @@ definitions:
     - id
     - title
     type: object
+  user.User:
+    properties:
+      createdAt:
+        type: integer
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -51,10 +128,114 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Go Todos API
+  termsOfService: http://swagger.io/terms/new
+  title: Go Todos APIs
   version: "1.0"
 paths:
+  /auth/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Send reset password email with token
+      parameters:
+      - description: Forgot Password Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Forgot Password
+      tags:
+      - auth-controller
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT tokens
+      parameters:
+      - description: Sign In Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.SignInResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User Sign In
+      tags:
+      - auth-controller
+  /auth/signout:
+    post:
+      consumes:
+      - application/json
+      description: Invalidate refresh token and log user out
+      parameters:
+      - description: Sign Out Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignOutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User Sign Out
+      tags:
+      - auth-controller
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account
+      parameters:
+      - description: Sign Up Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User Sign Up
+      tags:
+      - auth-controller
   /todos:
     get:
       consumes:
@@ -205,4 +386,10 @@ paths:
       summary: Update a todo
       tags:
       - todos-controller
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

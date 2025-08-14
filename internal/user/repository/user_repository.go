@@ -8,6 +8,7 @@ import (
 type UserRepository interface {
 	FindAll() ([]user.User, error)
 	FindByID(id uint) (*user.User, error)
+	FindByEmail(email string) (*user.User, error)
 	Create(user *user.User) error
 	Update(user *user.User) error
 	Delete(id uint) error
@@ -17,7 +18,7 @@ type userRepository struct {
 	db *gorm.DB
 }
 
-func NewAuthRepository(db *gorm.DB) UserRepository {
+func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{db}
 }
 
@@ -34,6 +35,18 @@ func (r *userRepository) FindByID(id uint) (*user.User, error) {
 		return nil, result.Error
 	}
 	return &user, nil
+}
+
+func (r *userRepository) FindByEmail(email string) (*user.User, error) {
+	var user user.User
+
+	err := r.db.Where("email = ?", email).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+
 }
 
 func (r *userRepository) Create(user *user.User) error {

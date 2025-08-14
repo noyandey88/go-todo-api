@@ -6,10 +6,10 @@ import (
 	"github.com/noyandey88/go-todo-app/internal/server"
 )
 
-// @title Go Todos API
+// @title Go Todos APIs
 // @version 1.0
 // @description This is a sample server Todos server.
-// @termsOfService http://swagger.io/terms/
+// @termsOfService http://swagger.io/terms/new
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
@@ -20,6 +20,11 @@ import (
 
 // @host localhost:8080
 // @BasePath /
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 func main() {
 	// connect database
 	database.ConnectDatabase()

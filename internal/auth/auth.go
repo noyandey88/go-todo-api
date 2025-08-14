@@ -1,6 +1,8 @@
 package auth
 
-import "github.com/noyandey88/go-todo-app/internal/user"
+import (
+	"github.com/noyandey88/go-todo-app/internal/user"
+)
 
 type SignInRequest struct {
 	Email    string `json:"email" validate:"required,email"`
@@ -37,4 +39,11 @@ type SignInResponse struct {
 	RefreshToken string    `json:"refreshToken"`
 	TokenType    string    `json:"tokenType"`
 	User         user.User `json:"user"`
+}
+
+type TokenBlacklist struct {
+	ID        uint   `gorm:"primaryKey"`
+	Token     string `gorm:"uniqueIndex"`
+	ExpiresAt int64  `gorm:"index"`
+	CreatedAt int64  `gorm:"index"`
 }

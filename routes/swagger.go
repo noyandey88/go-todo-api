@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	httpSwagger "github.com/swaggo/http-swagger"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 func RegisterSwagger(mux *http.ServeMux) {
