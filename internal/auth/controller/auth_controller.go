@@ -30,11 +30,13 @@ func NewAuthController(authService service.AuthService) *AuthController {
 func (c *AuthController) SignUp(w http.ResponseWriter, r *http.Request) {
 	var req auth.SignUpRequest
 	json.NewDecoder(r.Body).Decode(&req)
-	if err := c.authService.SignUp(req); err != nil {
+	usr, err := c.authService.SignUp(req)
+
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	response.JsonResponse(w, http.StatusOK, true, "Singed up successfully", req)
+	response.JsonResponse(w, http.StatusOK, true, "Singed up successfully", usr)
 }
 
 // SignIn godoc

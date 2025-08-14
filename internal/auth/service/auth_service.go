@@ -14,7 +14,7 @@ import (
 )
 
 type AuthService interface {
-	SignUp(req auth.SignUpRequest) error
+	SignUp(req auth.SignUpRequest) (*user.User, error)
 	SignIn(req auth.SignInRequest) (*auth.SignInResponse, error)
 	SignOut(req auth.SignOutRequest) error
 	ForgotPassword(req auth.ForgotPasswordRequest) error
@@ -31,7 +31,7 @@ func NewAuthService(authRepo authRepository.AuthRepository, userRepo userReposit
 	return &authService{authRepo, userRepo}
 }
 
-func (s *authService) SignUp(req auth.SignUpRequest) error {
+func (s *authService) SignUp(req auth.SignUpRequest) (*user.User, error) {
 	var user user.User
 	hashedPass, _ := utils.HashPassword(req.Password)
 
@@ -40,7 +40,12 @@ func (s *authService) SignUp(req auth.SignUpRequest) error {
 	user.Email = req.Email
 	user.Password = hashedPass
 
-	return s.userRepo.Create(&user)
+	err := s.userRepo.Create(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func (s *authService) SignIn(req auth.SignInRequest) (*auth.SignInResponse, error) {
