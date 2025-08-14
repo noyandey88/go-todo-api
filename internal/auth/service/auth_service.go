@@ -49,7 +49,7 @@ func (s *authService) SignIn(req auth.SignInRequest) (*auth.SignInResponse, erro
 		return nil, errors.New("User not found")
 	}
 
-	if utils.CompareHashedPassword(req.Password, user.Password) != nil {
+	if utils.CompareHashedPassword(user.Password, req.Password) != nil {
 		return nil, errors.New("Invalid credentials")
 	}
 

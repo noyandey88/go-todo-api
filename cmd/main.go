@@ -6,7 +6,7 @@ import (
 	"github.com/noyandey88/go-todo-app/internal/server"
 )
 
-// @title Go Todos APIs
+// @title Go Todos API
 // @version 1.0
 // @description This is a sample server Todos server.
 // @termsOfService http://swagger.io/terms/new
