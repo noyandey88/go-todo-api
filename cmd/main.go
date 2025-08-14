@@ -21,10 +21,10 @@ import (
 // @host localhost:8080
 // @BasePath /
 
-// @securityDefinitions.apikey BearerAuth
+// @securityDefinitions.apikey AccessTokenAuth
 // @in header
 // @name Authorization
-// @description Type "Bearer" followed by a space and JWT token.
+// @description Provide the access token directly, without "Bearer ".
 func main() {
 	// connect database
 	database.ConnectDatabase()

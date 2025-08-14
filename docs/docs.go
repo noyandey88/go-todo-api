@@ -593,8 +593,8 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and JWT token.",
+        "AccessTokenAuth": {
+            "description": "Provide the access token directly, without \"Bearer \".",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -608,7 +608,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Go Todos APIs",
+	Title:            "Go Todos API",
 	Description:      "This is a sample server Todos server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

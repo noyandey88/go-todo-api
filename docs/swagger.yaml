@@ -129,7 +129,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/new
-  title: Go Todos APIs
+  title: Go Todos API
   version: "1.0"
 paths:
   /auth/forgot-password:
@@ -387,8 +387,8 @@ paths:
       tags:
       - todos-controller
 securityDefinitions:
-  BearerAuth:
-    description: Type "Bearer" followed by a space and JWT token.
+  AccessTokenAuth:
+    description: Provide the access token directly, without "Bearer ".
     in: header
     name: Authorization
     type: apiKey
