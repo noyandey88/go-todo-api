@@ -186,6 +186,11 @@ const docTemplate = `{
         },
         "/todos": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get All Todos",
                 "consumes": [
                     "application/json"
@@ -212,6 +217,11 @@ const docTemplate = `{
         },
         "/todos/create": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Creates a new todo item",
                 "consumes": [
                     "application/json"
@@ -258,6 +268,11 @@ const docTemplate = `{
         },
         "/todos/delete/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a todo by ID",
                 "consumes": [
                     "application/json"
@@ -305,6 +320,11 @@ const docTemplate = `{
         },
         "/todos/update/{id}": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update todo details by ID",
                 "consumes": [
                     "application/json"
@@ -364,6 +384,11 @@ const docTemplate = `{
         },
         "/todos/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieves a todo item by its ID",
                 "consumes": [
                     "application/json"
@@ -593,7 +618,7 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "AccessTokenAuth": {
+        "BearerAuth": {
             "description": "Provide the access token directly, without \"Bearer \".",
             "type": "apiKey",
             "name": "Authorization",

@@ -250,6 +250,8 @@ paths:
             items:
               $ref: '#/definitions/todo.Todo'
             type: array
+      security:
+      - BearerAuth: []
       summary: Get All
       tags:
       - todos-controller
@@ -283,6 +285,8 @@ paths:
           description: Internal server error
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Get todo by ID
       tags:
       - todos-controller
@@ -313,6 +317,8 @@ paths:
           description: Internal server error
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Create Todos Endpoint
       tags:
       - todos-controller
@@ -344,6 +350,8 @@ paths:
           description: Internal server error
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Delete a todo
       tags:
       - todos-controller
@@ -383,11 +391,13 @@ paths:
           description: Internal server error
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Update a todo
       tags:
       - todos-controller
 securityDefinitions:
-  AccessTokenAuth:
+  BearerAuth:
     description: Provide the access token directly, without "Bearer ".
     in: header
     name: Authorization

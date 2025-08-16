@@ -8,16 +8,40 @@ import (
 	"github.com/noyandey88/go-todo-app/internal/todo/repository"
 	"github.com/noyandey88/go-todo-app/internal/todo/service"
 	"github.com/noyandey88/go-todo-app/middleware"
+	"github.com/noyandey88/go-todo-app/pkg/utils"
 )
 
 func RegisterTodosRoutes(mux *http.ServeMux) {
+	router := utils.NewMuxRouter(mux)
+	manager := middleware.NewManager()
+
 	todoRepo := repository.NewTodoRepository(database.DB)
 	todoService := service.NewTodoService(todoRepo)
 	todoController := controller.NewTodoController(todoService)
+	
+	router.Get("/todos", manager.With(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)(http.HandlerFunc(todoController.GetAllTodos)))
 
-	mux.Handle("GET /todos", middleware.JWTAuth(http.HandlerFunc(todoController.GetAllTodos)))
-	mux.Handle("GET /todos/{id}", middleware.JWTAuth(http.HandlerFunc(todoController.GetById)))
-	mux.Handle("POST /todos/create", middleware.JWTAuth(http.HandlerFunc(todoController.CreateTodo)))
-	mux.Handle("PUT /todos/update/{id}", middleware.JWTAuth(http.HandlerFunc(todoController.UpdateTodo)))
-	mux.Handle("DELETE /todos/delete/{id}", middleware.JWTAuth(http.HandlerFunc(todoController.DeleteTodo)))
+	router.Get("/todos/{id}", manager.With(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)(http.HandlerFunc(todoController.GetById)))
+
+	router.Post("/todos/create", manager.With(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)(http.HandlerFunc(todoController.CreateTodo)))
+
+	router.Put("/todos/update/{id}", manager.With(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)(http.HandlerFunc(todoController.UpdateTodo)))
+
+	router.Delete("/todos/update/{id}", manager.With(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)(http.HandlerFunc(todoController.DeleteTodo)))
+
 }

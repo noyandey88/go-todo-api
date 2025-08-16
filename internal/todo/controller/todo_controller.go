@@ -18,12 +18,13 @@ func NewTodoController(service service.TodoService) *TodoController {
 	return &TodoController{service: service}
 }
 
-// Get All godoc
+// GetAllTodos Get All godoc
 // @Summary Get All
 // @Description Get All Todos
 // @Tags todos-controller
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Success 200 {object} []todo.Todo
 // @Router /todos [get]
 func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +44,7 @@ func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Todo ID"
+// @Security BearerAuth
 // @Success 200 {object} todo.Todo
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "Todo not found"
@@ -74,6 +76,7 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param todo body todo.TodoCreateRequest true "create todo"
+// @Security BearerAuth
 // @Success 200 {object} todo.Todo
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Internal server error"
@@ -100,6 +103,7 @@ func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param id path int true "Todo ID"
 // @Param todo body todo.TodoUpdateRequest true "Updated todo data"
+// @Security BearerAuth
 // @Success 200 {object} todo.Todo
 // @Failure 400 {string} string "Invalid input"
 // @Failure 404 {string} string "Todo not found"
@@ -146,6 +150,7 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Todo ID"
+// @Security BearerAuth
 // @Success 204 "No Content"
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "Todo not found"

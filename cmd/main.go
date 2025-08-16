@@ -21,7 +21,7 @@ import (
 // @host localhost:8080
 // @BasePath /
 
-// @securityDefinitions.apikey AccessTokenAuth
+// @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @description Provide the access token directly, without "Bearer ".

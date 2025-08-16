@@ -21,6 +21,11 @@ func JWTAuth(next http.Handler) http.Handler {
 			return
 		}
 
+		// Ensure "Bearer " prefix
+		if !strings.HasPrefix(strings.ToLower(authHeader), "bearer ") {
+			authHeader = "Bearer " + authHeader
+		}
+
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
 			http.Error(w, "invalid authorization header format", http.StatusUnauthorized)
