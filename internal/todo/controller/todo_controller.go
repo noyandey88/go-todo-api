@@ -21,7 +21,7 @@ func NewTodoController(service service.TodoService) *TodoController {
 // GetAllTodos Get All godoc
 // @Summary Get All
 // @Description Get All Todos
-// @Tags todos-controller
+// @Tags todo-controller
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -40,7 +40,7 @@ func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
 // GetById godoc
 // @Summary Get todo by ID
 // @Description Retrieves a todo item by its ID
-// @Tags todos-controller
+// @Tags todo-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "Todo ID"
@@ -60,19 +60,19 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	employees, err := c.service.GetTodoByID(uint(id))
+	todo, err := c.service.GetTodoByID(uint(id))
 	if err != nil {
 		response.JsonResponse(w, http.StatusNotFound, false, "Todo not found", nil)
 		return
 	}
 
-	response.JsonResponse(w, http.StatusOK, true, "Todos loaded successfully", employees)
+	response.JsonResponse(w, http.StatusOK, true, "Todos loaded successfully", todo)
 }
 
 // CreateTodo godoc
 // @Summary Create Todos Endpoint
 // @Description Creates a new todo item
-// @Tags todos-controller
+// @Tags todo-controller
 // @Accept json
 // @Produce json
 // @Param todo body todo.TodoCreateRequest true "create todo"
@@ -98,7 +98,7 @@ func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 // UpdateTodo godoc
 // @Summary Update a todo
 // @Description Update todo details by ID
-// @Tags todos-controller
+// @Tags todo-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "Todo ID"
@@ -146,7 +146,7 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 // DeleteTodo godoc
 // @Summary Delete a todo
 // @Description Delete a todo by ID
-// @Tags todos-controller
+// @Tags todo-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "Todo ID"

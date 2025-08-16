@@ -29,23 +29,23 @@ func (r *userRepository) FindAll() ([]user.User, error) {
 }
 
 func (r *userRepository) FindByID(id uint) (*user.User, error) {
-	var user user.User
-	result := r.db.First(&user, id)
+	var usr user.User
+	result := r.db.First(&usr, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return &user, nil
+	return &usr, nil
 }
 
 func (r *userRepository) FindByEmail(email string) (*user.User, error) {
-	var user user.User
+	var usr user.User
 
-	err := r.db.Where("email = ?", email).First(&user).Error
+	err := r.db.Where("email = ?", email).First(&usr).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return &user, nil
+	return &usr, nil
 
 }
 

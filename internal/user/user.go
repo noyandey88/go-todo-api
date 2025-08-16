@@ -9,3 +9,10 @@ type User struct {
 	Email     string `json:"email" gorm:"unique;not null"`
 	Password  string `json:"-" gorm:"not null"`
 }
+
+type UpdateRequest struct {
+	ID        uint   `json:"id" validate:"required"`
+	FirstName string `json:"firstName" gorm:"not null"`
+	LastName  string `json:"lastName" gorm:"not null"`
+	Email     string `json:"email" gorm:"unique;not null"`
+}

@@ -2,9 +2,12 @@ package jwtutil
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	config "github.com/noyandey88/go-todo-app/configs"
 )
 
 // Claims is our custom JWT claims struct
@@ -75,4 +78,22 @@ func parseToken(tokenString, secret string) (uint, error) {
 		return 0, errors.New("invalid claims")
 	}
 	return claims.UserID, nil
+}
+
+func ParseUserIdFromToken(token string) (uint, error) {
+	// Ensure "Bearer " prefix
+	if !strings.HasPrefix(strings.ToLower(token), "bearer ") {
+		token = "Bearer " + token
+	}
+
+	parts := strings.Split(token, " ")
+
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		err := fmt.Errorf("invalid authorization header format")
+		return 0, err
+	}
+
+	cfg := config.LoadConfig()
+	id, err := ParseAccessToken(parts[1], cfg.JWT.Secret)
+	return id, err
 }

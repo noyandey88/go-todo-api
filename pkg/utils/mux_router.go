@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-type MuxRouterInterface interface {
+type MuxRouter interface {
 	Get(path string, handler http.Handler)
 	Post(path string, handler http.Handler)
 	Put(path string, handler http.Handler)
@@ -16,7 +16,7 @@ type muxRouter struct {
 	mux *http.ServeMux
 }
 
-func NewMuxRouter(mux *http.ServeMux) MuxRouterInterface {
+func NewMuxRouter(mux *http.ServeMux) MuxRouter {
 	return &muxRouter{mux: mux}
 }
 

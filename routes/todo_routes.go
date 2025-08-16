@@ -18,7 +18,7 @@ func RegisterTodosRoutes(mux *http.ServeMux) {
 	todoRepo := repository.NewTodoRepository(database.DB)
 	todoService := service.NewTodoService(todoRepo)
 	todoController := controller.NewTodoController(todoService)
-	
+
 	router.Get("/todos", manager.With(
 		middleware.Logger,
 		middleware.JWTAuth,
@@ -39,7 +39,7 @@ func RegisterTodosRoutes(mux *http.ServeMux) {
 		middleware.JWTAuth,
 	)(http.HandlerFunc(todoController.UpdateTodo)))
 
-	router.Delete("/todos/update/{id}", manager.With(
+	router.Delete("/todos/delete/{id}", manager.With(
 		middleware.Logger,
 		middleware.JWTAuth,
 	)(http.HandlerFunc(todoController.DeleteTodo)))

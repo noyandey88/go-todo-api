@@ -1,4 +1,4 @@
-basePath: /
+basePath: /api
 definitions:
   auth.ForgotPasswordRequest:
     properties:
@@ -103,6 +103,19 @@ definitions:
     - id
     - title
     type: object
+  user.UpdateRequest:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+    required:
+    - id
+    type: object
   user.User:
     properties:
       createdAt:
@@ -158,7 +171,7 @@ paths:
       summary: Forgot Password
       tags:
       - auth-controller
-  /auth/signin:
+  /auth/sign-in:
     post:
       consumes:
       - application/json
@@ -184,7 +197,7 @@ paths:
       summary: User Sign In
       tags:
       - auth-controller
-  /auth/signout:
+  /auth/sign-out:
     post:
       consumes:
       - application/json
@@ -210,7 +223,7 @@ paths:
       summary: User Sign Out
       tags:
       - auth-controller
-  /auth/signup:
+  /auth/sign-up:
     post:
       consumes:
       - application/json
@@ -254,7 +267,7 @@ paths:
       - BearerAuth: []
       summary: Get All
       tags:
-      - todos-controller
+      - todo-controller
   /todos/{id}:
     get:
       consumes:
@@ -289,7 +302,7 @@ paths:
       - BearerAuth: []
       summary: Get todo by ID
       tags:
-      - todos-controller
+      - todo-controller
   /todos/create:
     post:
       consumes:
@@ -321,7 +334,7 @@ paths:
       - BearerAuth: []
       summary: Create Todos Endpoint
       tags:
-      - todos-controller
+      - todo-controller
   /todos/delete/{id}:
     delete:
       consumes:
@@ -354,7 +367,7 @@ paths:
       - BearerAuth: []
       summary: Delete a todo
       tags:
-      - todos-controller
+      - todo-controller
   /todos/update/{id}:
     put:
       consumes:
@@ -395,7 +408,164 @@ paths:
       - BearerAuth: []
       summary: Update a todo
       tags:
-      - todos-controller
+      - todo-controller
+  /user/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update user details by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update a user
+      tags:
+      - user-controller
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get All
+      tags:
+      - user-controller
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a user by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - user-controller
+  /users/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - user-controller
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a user by its ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - user-controller
 securityDefinitions:
   BearerAuth:
     description: Provide the access token directly, without "Bearer ".

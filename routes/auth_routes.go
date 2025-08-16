@@ -20,16 +20,16 @@ func RegisterAuthRoutes(mux *http.ServeMux) {
 	userRepo := userRepository.NewUserRepository(database.DB)
 	authService := service.NewAuthService(authRepo, userRepo)
 	authController := controller.NewAuthController(authService)
-	
-	router.Post("/auth/signin", manager.With(
+
+	router.Post("/auth/sign-in", manager.With(
 		middleware.Logger,
 	)(http.HandlerFunc(authController.SignIn)))
 
-	router.Post("/auth/signup", manager.With(
+	router.Post("/auth/sign-up", manager.With(
 		middleware.Logger,
 	)(http.HandlerFunc(authController.SignUp)))
 
-	router.Post("/auth/signout", manager.With(
+	router.Post("/auth/sign-out", manager.With(
 		middleware.Logger,
 	)(http.HandlerFunc(authController.SignOut)))
 
