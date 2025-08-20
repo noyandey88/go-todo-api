@@ -76,6 +76,8 @@ definitions:
         type: string
       updatedAt:
         type: integer
+      userId:
+        type: integer
     type: object
   todo.TodoCreateRequest:
     properties:

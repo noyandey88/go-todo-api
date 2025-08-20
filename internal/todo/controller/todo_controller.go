@@ -7,6 +7,7 @@ import (
 
 	"github.com/noyandey88/go-todo-app/internal/todo"
 	"github.com/noyandey88/go-todo-app/internal/todo/service"
+	"github.com/noyandey88/go-todo-app/pkg/jwtutil"
 	"github.com/noyandey88/go-todo-app/pkg/response"
 )
 
@@ -28,13 +29,48 @@ func NewTodoController(service service.TodoService) *TodoController {
 // @Success 200 {object} []todo.Todo
 // @Router /todos [get]
 func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
-	employees, err := c.service.GetAllTodos()
+	todos, err := c.service.GetAllTodos()
+
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.JsonResponse(
+			w,
+			http.StatusInternalServerError,
+			false,
+			"Internal Server Error",
+			nil,
+		)
 		return
 	}
 
-	response.JsonResponse(w, http.StatusOK, true, "Todos loaded successfully", employees)
+	authHeader := r.Header.Get("Authorization")
+	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid accessToken or user id",
+			nil,
+		)
+		return
+	}
+
+	var filteredTodo []todo.Todo
+
+	for _, t := range todos {
+		if t.UserId == usrId {
+			filteredTodo = append(filteredTodo, t)
+		}
+	}
+
+	response.JsonResponse(
+		w,
+		http.StatusOK,
+		true,
+		"Todos loaded successfully",
+		filteredTodo,
+	)
 }
 
 // GetById godoc
@@ -56,13 +92,49 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(idstr)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Internal request id",
+			nil,
+		)
+		return
+	}
+
+	authHeader := r.Header.Get("Authorization")
+	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid accessToken or user id",
+			nil,
+		)
 		return
 	}
 
 	todo, err := c.service.GetTodoByID(uint(id))
 	if err != nil {
-		response.JsonResponse(w, http.StatusNotFound, false, "Todo not found", nil)
+		response.JsonResponse(
+			w,
+			http.StatusNotFound,
+			false,
+			"Todo not found",
+			nil,
+		)
+		return
+	}
+
+	if todo.UserId != usrId {
+		response.JsonResponse(w,
+			http.StatusNotFound,
+			false,
+			"Todo not found",
+			nil,
+		)
 		return
 	}
 
@@ -83,12 +155,42 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Router /todos/create [post]
 func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	var todo todo.Todo
-	if err := json.NewDecoder(r.Body).Decode(&todo); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+
+	authHeader := r.Header.Get("Authorization")
+	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid accessToken or user id",
+			nil,
+		)
 		return
 	}
+
+	todo.UserId = usrId
+
+	if err := json.NewDecoder(r.Body).Decode(&todo); err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusInternalServerError,
+			false,
+			"Failed to decode to json",
+			nil,
+		)
+		return
+	}
+
 	if err := c.service.CreateTodo(&todo); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.JsonResponse(
+			w,
+			http.StatusInternalServerError,
+			false,
+			"Failed to create todo",
+			nil,
+		)
 		return
 	}
 
@@ -113,19 +215,56 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid ID", http.StatusBadRequest)
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid ID",
+			nil,
+		)
+		return
+	}
+
+	authHeader := r.Header.Get("Authorization")
+	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid accessToken or user id",
+			nil,
+		)
 		return
 	}
 
 	var req todo.TodoUpdateRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid request body",
+			nil,
+		)
 		return
 	}
 
 	// Fetch existing todo first (optional but good for checking existence)
 	existingTodo, err := c.service.GetTodoByID(uint(id))
 	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusNotFound,
+			false,
+			"Todo not found",
+			nil,
+		)
+		return
+	}
+
+	if existingTodo.UserId != usrId {
 		response.JsonResponse(w, http.StatusNotFound, false, "Todo not found", nil)
 		return
 	}
@@ -136,7 +275,13 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 	existingTodo.Completed = req.Completed
 
 	if err := c.service.UpdateTodo(existingTodo); err != nil {
-		http.Error(w, "Failed to update todo", http.StatusInternalServerError)
+		response.JsonResponse(
+			w,
+			http.StatusInternalServerError,
+			false,
+			"Failed to update json",
+			nil,
+		)
 		return
 	}
 
@@ -160,15 +305,71 @@ func (c *TodoController) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid ID", http.StatusBadRequest)
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"invalid request id",
+			nil,
+		)
+		return
+	}
+
+	authHeader := r.Header.Get("Authorization")
+	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusBadRequest,
+			false,
+			"Invalid accessToken or user id",
+			nil,
+		)
+		return
+	}
+
+	// Fetch existing todo first (optional but good for checking existence)
+	existingTodo, err := c.service.GetTodoByID(uint(id))
+	if err != nil {
+		response.JsonResponse(
+			w,
+			http.StatusNotFound,
+			false,
+			"Todo not found",
+			nil,
+		)
+		return
+	}
+
+	if existingTodo.UserId != usrId {
+		response.JsonResponse(
+			w,
+			http.StatusNotFound,
+			false,
+			"Todo not found",
+			nil,
+		)
 		return
 	}
 
 	err = c.service.DeleteTodo(uint(id))
 	if err != nil {
-		http.Error(w, "Todo not found or failed to delete", http.StatusInternalServerError)
+		response.JsonResponse(
+			w,
+			http.StatusInternalServerError,
+			false,
+			"Todo not found or failed to delete",
+			nil,
+		)
 		return
 	}
 
-	response.JsonResponse(w, http.StatusOK, true, "Todo deleted successfully", nil)
+	response.JsonResponse(
+		w,
+		http.StatusOK,
+		true,
+		"Todo deleted successfully",
+		nil,
+	)
 }

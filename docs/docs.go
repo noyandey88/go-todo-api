@@ -800,6 +800,9 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },

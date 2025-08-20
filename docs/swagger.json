@@ -794,6 +794,9 @@
                 },
                 "updatedAt": {
                     "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
