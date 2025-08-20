@@ -15,33 +15,32 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 	router := utils.NewMuxRouter(mux)
 	manager := middleware.NewManager()
 
+	manager.Use(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)
+
 	userRepo := repository.NewUserRepository(database.DB)
 	userService := service.NewUserService(userRepo)
 	todoController := controller.NewUserController(userService)
 
 	router.Get("/users", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.GetAllUsers)))
+		http.HandlerFunc(todoController.GetAllUsers),
+	))
 
 	router.Get("/users/me", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.GetMe)))
+		http.HandlerFunc(todoController.GetMe),
+	))
 
 	router.Get("/users/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.GetById)))
+		http.HandlerFunc(todoController.GetById),
+	))
 
 	router.Put("/users/update/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.UpdateUser)))
+		http.HandlerFunc(todoController.UpdateUser),
+	))
 
 	router.Delete("/users/delete/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.DeleteUser)))
-
+		http.HandlerFunc(todoController.DeleteUser),
+	))
 }

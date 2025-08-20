@@ -15,33 +15,32 @@ func RegisterTodosRoutes(mux *http.ServeMux) {
 	router := utils.NewMuxRouter(mux)
 	manager := middleware.NewManager()
 
+	manager.Use(
+		middleware.Logger,
+		middleware.JWTAuth,
+	)
+
 	todoRepo := repository.NewTodoRepository(database.DB)
 	todoService := service.NewTodoService(todoRepo)
 	todoController := controller.NewTodoController(todoService)
 
 	router.Get("/todos", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.GetAllTodos)))
+		http.HandlerFunc(todoController.GetAllTodos),
+	))
 
 	router.Get("/todos/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.GetById)))
+		http.HandlerFunc(todoController.GetById),
+	))
 
 	router.Post("/todos/create", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.CreateTodo)))
+		http.HandlerFunc(todoController.CreateTodo),
+	))
 
 	router.Put("/todos/update/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.UpdateTodo)))
+		http.HandlerFunc(todoController.UpdateTodo),
+	))
 
 	router.Delete("/todos/delete/{id}", manager.With(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)(http.HandlerFunc(todoController.DeleteTodo)))
-
+		http.HandlerFunc(todoController.DeleteTodo),
+	))
 }

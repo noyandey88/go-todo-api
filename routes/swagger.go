@@ -18,9 +18,6 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
-// RegisterSwagger correctly sets up the Swagger UI handler with options.
-// The httpSwagger.Handler function returns a value of type http.Handler,
-// which is what mux.Handle expects.
 func RegisterSwagger(mux *http.ServeMux) {
 	// The httpSwagger.Handler function is a convenience function that
 	// returns an http.Handler for the Swagger UI.
