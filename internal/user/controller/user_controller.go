@@ -7,7 +7,7 @@ import (
 
 	"github.com/noyandey88/go-todo-app/internal/user"
 	"github.com/noyandey88/go-todo-app/internal/user/service"
-	"github.com/noyandey88/go-todo-app/pkg/jwtutil"
+	"github.com/noyandey88/go-todo-app/middleware"
 	"github.com/noyandey88/go-todo-app/pkg/response"
 	"github.com/noyandey88/go-todo-app/pkg/utils"
 )
@@ -115,10 +115,9 @@ func (s *UserController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {string} string "Internal server error"
 // @Router /users/me [get]
 func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
-	authHeader := r.Header.Get("Authorization")
-	id, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,
@@ -129,7 +128,7 @@ func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usr, err := s.service.GetUserByID(uint(id))
+	usr, err := s.service.GetUserByID(uint(usrId))
 	if err != nil {
 		response.JsonResponse(
 			w,

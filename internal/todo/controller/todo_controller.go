@@ -7,7 +7,7 @@ import (
 
 	"github.com/noyandey88/go-todo-app/internal/todo"
 	"github.com/noyandey88/go-todo-app/internal/todo/service"
-	"github.com/noyandey88/go-todo-app/pkg/jwtutil"
+	"github.com/noyandey88/go-todo-app/middleware"
 	"github.com/noyandey88/go-todo-app/pkg/response"
 )
 
@@ -42,10 +42,9 @@ func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authHeader := r.Header.Get("Authorization")
-	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,
@@ -102,10 +101,9 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authHeader := r.Header.Get("Authorization")
-	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,
@@ -156,10 +154,9 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	var todo todo.Todo
 
-	authHeader := r.Header.Get("Authorization")
-	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,
@@ -225,10 +222,9 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authHeader := r.Header.Get("Authorization")
-	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,
@@ -315,10 +311,9 @@ func (c *TodoController) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authHeader := r.Header.Get("Authorization")
-	usrId, err := jwtutil.ParseUserIdFromToken(authHeader)
+	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
-	if err != nil {
+	if !ok {
 		response.JsonResponse(
 			w,
 			http.StatusBadRequest,

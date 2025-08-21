@@ -882,6 +882,9 @@ const docTemplate = `{
                 "lastName": {
                     "type": "string"
                 },
+                "role": {
+                    "type": "string"
+                },
                 "updatedAt": {
                     "type": "integer"
                 }

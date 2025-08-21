@@ -8,6 +8,7 @@ type User struct {
 	LastName  string `json:"lastName" gorm:"not null"`
 	Email     string `json:"email" gorm:"unique;not null"`
 	Password  string `json:"-" gorm:"not null"`
+	Role      string `json:"role" gorm:"default:'user';not null"`
 }
 
 type UpdateRequest struct {
