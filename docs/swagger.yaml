@@ -149,6 +149,134 @@ info:
   title: Go Todos API
   version: "1.0"
 paths:
+  /admin/user/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update user details by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update a user
+      tags:
+      - admin-user-controller
+  /admin/users:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get All
+      tags:
+      - admin-user-controller
+  /admin/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a user by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - admin-user-controller
+  /admin/users/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ID
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - admin-user-controller
   /auth/forgot-password:
     post:
       consumes:
@@ -413,134 +541,6 @@ paths:
       summary: Update a todo
       tags:
       - todo-controller
-  /user/update/{id}:
-    put:
-      consumes:
-      - application/json
-      description: Update user details by ID
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Updated user data
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/user.UpdateRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/user.User'
-        "400":
-          description: Invalid input
-          schema:
-            type: string
-        "404":
-          description: User not found
-          schema:
-            type: string
-        "500":
-          description: Internal server error
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Update a user
-      tags:
-      - user-controller
-  /users:
-    get:
-      consumes:
-      - application/json
-      description: Get All Users
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/user.User'
-            type: array
-      security:
-      - BearerAuth: []
-      summary: Get All
-      tags:
-      - user-controller
-  /users/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Retrieves a user by its ID
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/user.User'
-        "400":
-          description: Invalid ID
-          schema:
-            type: string
-        "404":
-          description: User not found
-          schema:
-            type: string
-        "500":
-          description: Internal server error
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Get user by ID
-      tags:
-      - user-controller
-  /users/delete/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a user by ID
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Invalid ID
-          schema:
-            type: string
-        "404":
-          description: User not found
-          schema:
-            type: string
-        "500":
-          description: Internal server error
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Delete a user
-      tags:
-      - user-controller
   /users/me:
     get:
       consumes:

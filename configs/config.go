@@ -15,13 +15,15 @@ type Config struct {
 	} `yaml:"server"`
 
 	Database struct {
-		Host     string `yaml:"host"`
-		Port     int    `yaml:"port"`
-		User     string `yaml:"user"`
-		Password string `yaml:"password"`
-		Name     string `yaml:"name"`
-		SSLMode  string `yaml:"sslmode"`
-		TimeZone string `yaml:"timezone"`
+		Host               string `yaml:"host"`
+		Port               int    `yaml:"port"`
+		User               string `yaml:"user"`
+		Password           string `yaml:"password"`
+		Name               string `yaml:"name"`
+		SSLMode            string `yaml:"sslmode"`
+		TimeZone           string `yaml:"timezone"`
+		SuperAdmin         string `yaml:"superAdmin"`
+		SuperAdminPassword string `yaml:"superAdminPassword"`
 	} `yaml:"database"`
 
 	JWT struct {

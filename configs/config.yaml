@@ -11,6 +11,8 @@ database:
   name: go-todo
   sslmode: disable
   timezone: UTC
+  superAdmin: super_admin@todo.com
+  superAdminPassword: todo@1234
 
 jwt:
   secret: 05cd349d9acfba3662a8bbc07bba0dbfdbc513d569e9475c97a029779a0bb41b

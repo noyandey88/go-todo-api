@@ -35,7 +35,13 @@ func ConnectDatabase() {
 	DB = database
 	log.Println("Database connection established.")
 
-	migrate(DB)
+	if err := migrate(DB); err != nil {
+		panic(err)
+	}
+
+	if err := seedSuperAdmin(DB); err != nil {
+		panic(err)
+	}
 
 	log.Println("Connected to PostgreSQL database using GORM!")
 }

@@ -24,7 +24,7 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 	userService := service.NewUserService(userRepo)
 	todoController := controller.NewUserController(userService)
 
-	router.Get("/users", manager.With(
+	router.Get("/admin/users", manager.With(
 		http.HandlerFunc(todoController.GetAllUsers),
 	))
 
@@ -32,15 +32,15 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 		http.HandlerFunc(todoController.GetMe),
 	))
 
-	router.Get("/users/{id}", manager.With(
+	router.Get("/admin/users/{id}", manager.With(
 		http.HandlerFunc(todoController.GetById),
 	))
 
-	router.Put("/users/update/{id}", manager.With(
+	router.Put("/admin/users/update/{id}", manager.With(
 		http.HandlerFunc(todoController.UpdateUser),
 	))
 
-	router.Delete("/users/delete/{id}", manager.With(
+	router.Delete("/admin/users/delete/{id}", manager.With(
 		http.HandlerFunc(todoController.DeleteUser),
 	))
 }

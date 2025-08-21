@@ -23,12 +23,12 @@ func NewUserController(service service.UserService) *UserController {
 // GetAllUsers Get All godoc
 // @Summary Get All
 // @Description Get All Users
-// @Tags user-controller
+// @Tags admin-user-controller
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Success 200 {object} []user.User
-// @Router /users [get]
+// @Router /admin/users [get]
 func (s *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := s.service.GetAllUsers()
 
@@ -55,7 +55,7 @@ func (s *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 // GetById godoc
 // @Summary Get user by ID
 // @Description Retrieves a user by its ID
-// @Tags user-controller
+// @Tags admin-user-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "User ID"
@@ -64,7 +64,7 @@ func (s *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /users/{id} [get]
+// @Router /admin/users/{id} [get]
 func (s *UserController) GetById(w http.ResponseWriter, r *http.Request) {
 	idstr := r.PathValue("id")
 
@@ -152,7 +152,7 @@ func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 // UpdateUser godoc
 // @Summary Update a user
 // @Description Update user details by ID
-// @Tags user-controller
+// @Tags admin-user-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "User ID"
@@ -162,7 +162,7 @@ func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid input"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /user/update/{id} [put]
+// @Router /admin/user/update/{id} [put]
 func (s *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
@@ -224,7 +224,7 @@ func (s *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // DeleteUser godoc
 // @Summary Delete a user
 // @Description Delete a user by ID
-// @Tags user-controller
+// @Tags admin-user-controller
 // @Accept json
 // @Produce json
 // @Param id path int true "User ID"
@@ -233,7 +233,7 @@ func (s *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /users/delete/{id} [delete]
+// @Router /admin/users/delete/{id} [delete]
 func (s *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
