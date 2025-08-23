@@ -3,23 +3,23 @@ package jwtutil
 import (
 	"errors"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	config "github.com/noyandey88/go-todo-app/configs"
 )
 
 // Claims is our custom JWT claims struct
 type Claims struct {
-	UserID uint `json:"user_id"`
+	UserID uint   `json:"user_id"`
+	Role   string `json:"role"`
 	jwt.RegisteredClaims
 }
 
 // GenerateAccessToken creates a short-lived JWT for authentication
-func GenerateAccessToken(userID uint, secret string, expiresIn int) (string, error) {
+func GenerateAccessToken(userID uint, userRole string, secret string, expiresIn int) (string, error) {
 	claims := Claims{
 		UserID: userID,
+		Role:   userRole,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(expiresIn) * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -30,9 +30,10 @@ func GenerateAccessToken(userID uint, secret string, expiresIn int) (string, err
 }
 
 // GenerateRefreshToken creates a long-lived JWT for refresh purposes
-func GenerateRefreshToken(userID uint, secret string) (string, error) {
+func GenerateRefreshToken(userID uint, userRole string, secret string) (string, error) {
 	claims := Claims{
 		UserID: userID,
+		Role:   userRole,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)), // 7 days
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -56,44 +57,44 @@ func GenerateResetToken(userID uint, secret string) (string, error) {
 }
 
 // ParseAccessToken validates and returns the user ID from an access token
-func ParseAccessToken(tokenString, secret string) (uint, error) {
-	return parseToken(tokenString, secret)
+func ParseAccessToken(tokenString, secret string) (uint, string, error) {
+	claims, err := parseToken(tokenString, secret)
+	if err != nil {
+		return 0, "", err
+	}
+	return claims.UserID, claims.Role, nil
 }
 
 // ParseResetToken validates and returns the user ID from a reset token
-func ParseResetToken(tokenString, secret string) (uint, error) {
-	return parseToken(tokenString, secret)
+func ParseResetToken(tokenString, secret string) (uint, string, error) {
+	claims, err := parseToken(tokenString, secret)
+	if err != nil {
+		return 0, "", err
+	}
+	return claims.UserID, claims.Role, nil
 }
 
 // Common parser function
-func parseToken(tokenString, secret string) (uint, error) {
+func parseToken(tokenString, secret string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		// Ensure the signing method is HMAC
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
 		return []byte(secret), nil
 	})
-	if err != nil || !token.Valid {
-		return 0, errors.New("invalid token")
+	if err != nil {
+		return nil, err
 	}
+
 	claims, ok := token.Claims.(*Claims)
-	if !ok {
-		return 0, errors.New("invalid claims")
-	}
-	return claims.UserID, nil
-}
-
-func ParseUserIdFromToken(token string) (uint, error) {
-	// Ensure "Bearer " prefix
-	if !strings.HasPrefix(strings.ToLower(token), "bearer ") {
-		token = "Bearer " + token
+	if !ok || !token.Valid {
+		return nil, errors.New("invalid token")
 	}
 
-	parts := strings.Split(token, " ")
-
-	if len(parts) != 2 || parts[0] != "Bearer" {
-		err := fmt.Errorf("invalid authorization header format")
-		return 0, err
+	if claims.ExpiresAt != nil && claims.ExpiresAt.Before(time.Now()) {
+		return nil, errors.New("token expired")
 	}
 
-	cfg := config.LoadConfig()
-	id, err := ParseAccessToken(parts[1], cfg.JWT.Secret)
-	return id, err
+	return claims, nil
 }

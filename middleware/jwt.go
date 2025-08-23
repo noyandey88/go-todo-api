@@ -26,15 +26,11 @@ func JWTAuth(next http.Handler) http.Handler {
 			authHeader = "Bearer " + authHeader
 		}
 
-		parts := strings.Split(authHeader, " ")
-		if len(parts) != 2 || parts[0] != "Bearer" {
-			http.Error(w, "invalid authorization header format", http.StatusUnauthorized)
-			return
-		}
+		token := strings.TrimPrefix(authHeader, "Bearer ")
 
 		cfg := config.LoadConfig()
 
-		userID, err := jwtutil.ParseAccessToken(parts[1], cfg.JWT.Secret)
+		userID, role, err := jwtutil.ParseAccessToken(token, cfg.JWT.Secret)
 		if err != nil {
 			http.Error(w, "invalid or expired token", http.StatusUnauthorized)
 			return
@@ -42,6 +38,7 @@ func JWTAuth(next http.Handler) http.Handler {
 
 		// Store userID in context
 		ctx := context.WithValue(r.Context(), UserIDKey, userID)
+		ctx = context.WithValue(ctx, RoleKey, role)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -50,4 +47,9 @@ func JWTAuth(next http.Handler) http.Handler {
 func GetUserIDFromContext(ctx context.Context) (uint, bool) {
 	userID, ok := ctx.Value(UserIDKey).(uint)
 	return userID, ok
+}
+
+func GetRoleFromContext(ctx context.Context) (string, bool) {
+	role, ok := ctx.Value(RoleKey).(string)
+	return role, ok
 }

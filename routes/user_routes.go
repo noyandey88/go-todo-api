@@ -23,6 +23,7 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 
 	router.Get("/admin/users", manager.With(
 		http.HandlerFunc(todoController.GetAllUsers),
+		middleware.AllowedRole("super_admin"),
 	))
 
 	router.Get("/users/me", manager.With(
@@ -31,13 +32,16 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 
 	router.Get("/admin/users/{id}", manager.With(
 		http.HandlerFunc(todoController.GetById),
+		middleware.AllowedRole("super_admin"),
 	))
 
 	router.Put("/admin/users/update/{id}", manager.With(
 		http.HandlerFunc(todoController.UpdateUser),
+		middleware.AllowedRole("super_admin"),
 	))
 
 	router.Delete("/admin/users/delete/{id}", manager.With(
 		http.HandlerFunc(todoController.DeleteUser),
+		middleware.AllowedRole("super_admin"),
 	))
 }

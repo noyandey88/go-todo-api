@@ -51,15 +51,15 @@ func (s *authService) SignUp(req auth.SignUpRequest) (*user.User, error) {
 func (s *authService) SignIn(req auth.SignInRequest) (*auth.SignInResponse, error) {
 	user, err := s.userRepo.FindByEmail(req.Email)
 	if err != nil {
-		return nil, errors.New("User not found")
+		return nil, errors.New("user not found")
 	}
 
 	if utils.CompareHashedPassword(user.Password, req.Password) != nil {
-		return nil, errors.New("Invalid credentials")
+		return nil, errors.New("invalid credentials")
 	}
 
-	accessToken, _ := jwtutil.GenerateAccessToken(user.ID, config.AppConfig.JWT.Secret, config.AppConfig.JWT.ExpiresIn)
-	refreshToken, _ := jwtutil.GenerateRefreshToken(user.ID, config.AppConfig.JWT.Secret)
+	accessToken, _ := jwtutil.GenerateAccessToken(user.ID, user.Role, config.AppConfig.JWT.Secret, config.AppConfig.JWT.ExpiresIn)
+	refreshToken, _ := jwtutil.GenerateRefreshToken(user.ID, user.Role, config.AppConfig.JWT.Secret)
 
 	return &auth.SignInResponse{
 		AccessToken:  accessToken,
