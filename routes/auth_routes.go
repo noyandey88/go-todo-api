@@ -16,8 +16,6 @@ func RegisterAuthRoutes(mux *http.ServeMux) {
 	router := utils.NewMuxRouter(mux)
 	manager := middleware.NewManager()
 
-	manager.Use(middleware.Logger)
-
 	authRepo := repository.NewAuthRepository(database.DB)
 	userRepo := userRepository.NewUserRepository(database.DB)
 	authService := service.NewAuthService(authRepo, userRepo)

@@ -12,15 +12,22 @@ import (
 func ConnectServer() {
 	mux := http.NewServeMux()
 	cfg := config.LoadConfig()
+	manager := middleware.NewManager()
 	port := fmt.Sprintf(":%d", cfg.Server.Port)
 
-	globalRouter := middleware.GlobalRouter(mux)
+	manager.Use(
+		middleware.Preflight,
+		middleware.Cors,
+		middleware.Logger,
+	)
+
+	wrappedMux := manager.WrapMux(mux)
 
 	// Load all routes
 	routes.RegisterRoutes(mux)
 
 	fmt.Println("Server is running on port", port)
-	err := http.ListenAndServe(port, globalRouter)
+	err := http.ListenAndServe(port, wrappedMux)
 	if err != nil {
 		fmt.Println("Error starting the server", err)
 	}

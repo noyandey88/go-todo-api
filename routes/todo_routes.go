@@ -11,14 +11,10 @@ import (
 	"github.com/noyandey88/go-todo-app/pkg/utils"
 )
 
-func RegisterTodosRoutes(mux *http.ServeMux) {
+func RegisterTodosRoutes(mux *http.ServeMux, manager *middleware.Manager) {
 	router := utils.NewMuxRouter(mux)
-	manager := middleware.NewManager()
 
-	manager.Use(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)
+	manager.Use(middleware.JWTAuth)
 
 	todoRepo := repository.NewTodoRepository(database.DB)
 	todoService := service.NewTodoService(todoRepo)

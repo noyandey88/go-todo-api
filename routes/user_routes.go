@@ -15,10 +15,7 @@ func RegisterUserRoutes(mux *http.ServeMux) {
 	router := utils.NewMuxRouter(mux)
 	manager := middleware.NewManager()
 
-	manager.Use(
-		middleware.Logger,
-		middleware.JWTAuth,
-	)
+	manager.Use(middleware.JWTAuth)
 
 	userRepo := repository.NewUserRepository(database.DB)
 	userService := service.NewUserService(userRepo)
