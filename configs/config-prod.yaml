@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  readTimeout: 10
+  writeTimeout: 10
+
+database:
+  host: dpg-d2ljrnbuibrs73fba1v0-a
+  port: 5432
+  user: go_todo_user
+  password: IvBsTzM7xglvA3DF5jdR6iGg6WCsWlsf
+  name: go-todo
+  sslmode: require
+  timezone: UTC
+  superAdmin: super_admin@todo.com
+  superAdminPassword: todo@1234
+
+jwt:
+  secret: 05cd349d9acfba3662a8bbc07bba0dbfdbc513d569e9475c97a029779a0bb41b
+  expiresIn: 3600
+
+logging:
+  level: info
+  file: ./logs/todo.log

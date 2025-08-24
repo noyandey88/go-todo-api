@@ -40,7 +40,7 @@ type Config struct {
 var AppConfig *Config
 
 func LoadConfig() *Config {
-	file, err := os.Open("configs/config.yaml")
+	file, err := os.Open("configs/config-prod.yaml")
 	if err != nil {
 		log.Fatalf("Error opening config file: %v", err)
 	}
