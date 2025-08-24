@@ -135,7 +135,7 @@ definitions:
       updatedAt:
         type: integer
     type: object
-host: localhost:8080
+host: go-todo-api-36ta.onrender.com
 info:
   contact:
     email: support@swagger.io
