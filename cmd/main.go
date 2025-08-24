@@ -18,7 +18,7 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host go-todo-api-36ta.onrender.com
 // @BasePath /api
 
 // @securityDefinitions.apikey BearerAuth
