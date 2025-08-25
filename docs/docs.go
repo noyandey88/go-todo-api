@@ -306,46 +306,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/auth/sign-out": {
-            "post": {
-                "description": "Invalidate refresh token and log user out",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth-controller"
-                ],
-                "summary": "User Sign Out",
-                "parameters": [
-                    {
-                        "description": "Sign Out Request",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth.SignOutRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/api/auth/sign-up": {
             "post": {
                 "description": "Create a new user account",
@@ -727,17 +687,6 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/user.User"
-                }
-            }
-        },
-        "auth.SignOutRequest": {
-            "type": "object",
-            "required": [
-                "refreshToken"
-            ],
-            "properties": {
-                "refreshToken": {
-                    "type": "string"
                 }
             }
         },

@@ -28,13 +28,6 @@ definitions:
       user:
         $ref: '#/definitions/user.User'
     type: object
-  auth.SignOutRequest:
-    properties:
-      refreshToken:
-        type: string
-    required:
-    - refreshToken
-    type: object
   auth.SignUpRequest:
     properties:
       email:
@@ -327,32 +320,6 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: User Sign In
-      tags:
-      - auth-controller
-  /api/auth/sign-out:
-    post:
-      consumes:
-      - application/json
-      description: Invalidate refresh token and log user out
-      parameters:
-      - description: Sign Out Request
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/auth.SignOutRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: User Sign Out
       tags:
       - auth-controller
   /api/auth/sign-up:

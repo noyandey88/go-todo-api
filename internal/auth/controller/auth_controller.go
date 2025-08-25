@@ -65,7 +65,7 @@ func (c *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
 // SignOut godoc
 // @Summary User Sign Out
 // @Description Invalidate refresh token and log user out
-// @Tags auth-controller
+// @Tags auth-controller, internal
 // @Accept json
 // @Produce json
 // @Param data body auth.SignOutRequest true "Sign Out Request"
