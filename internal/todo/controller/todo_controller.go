@@ -27,7 +27,7 @@ func NewTodoController(service service.TodoService) *TodoController {
 // @Produce json
 // @Security BearerAuth
 // @Success 200 {object} []todo.Todo
-// @Router /todos [get]
+// @Router /api/todos [get]
 func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
 	todos, err := c.service.GetAllTodos()
 
@@ -84,7 +84,7 @@ func (c *TodoController) GetAllTodos(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "Todo not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /todos/{id} [get]
+// @Router /api/todos/{id} [get]
 func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 	idstr := r.PathValue("id")
 
@@ -150,7 +150,7 @@ func (c *TodoController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} todo.Todo
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Internal server error"
-// @Router /todos/create [post]
+// @Router /api/todos/create [post]
 func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	var todo todo.Todo
 
@@ -207,7 +207,7 @@ func (c *TodoController) CreateTodo(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid input"
 // @Failure 404 {string} string "Todo not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /todos/update/{id} [put]
+// @Router /api/todos/update/{id} [put]
 func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
@@ -296,7 +296,7 @@ func (c *TodoController) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "Todo not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /todos/delete/{id} [delete]
+// @Router /api/todos/delete/{id} [delete]
 func (c *TodoController) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)

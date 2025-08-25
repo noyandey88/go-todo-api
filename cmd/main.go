@@ -19,7 +19,7 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host go-todo-api-36ta.onrender.com
-// @BasePath /api
+// @BasePath /
 
 // @securityDefinitions.apikey BearerAuth
 // @in header

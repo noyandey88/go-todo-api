@@ -28,7 +28,7 @@ func NewUserController(service service.UserService) *UserController {
 // @Produce json
 // @Security BearerAuth
 // @Success 200 {object} []user.User
-// @Router /admin/users [get]
+// @Router /api/admin/users [get]
 func (s *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := s.service.GetAllUsers()
 
@@ -64,7 +64,7 @@ func (s *UserController) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /admin/users/{id} [get]
+// @Router /api/admin/users/{id} [get]
 func (s *UserController) GetById(w http.ResponseWriter, r *http.Request) {
 	idstr := r.PathValue("id")
 
@@ -113,7 +113,7 @@ func (s *UserController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /users/me [get]
+// @Router /api/users/me [get]
 func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 	usrId, ok := middleware.GetUserIDFromContext(r.Context())
 
@@ -162,7 +162,7 @@ func (s *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid input"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /admin/user/update/{id} [put]
+// @Router /api/admin/user/update/{id} [put]
 func (s *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
@@ -233,7 +233,7 @@ func (s *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid ID"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Internal server error"
-// @Router /admin/users/delete/{id} [delete]
+// @Router /api/admin/users/delete/{id} [delete]
 func (s *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)

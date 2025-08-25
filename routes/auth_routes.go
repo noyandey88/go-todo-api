@@ -29,9 +29,9 @@ func RegisterAuthRoutes(mux *http.ServeMux) {
 		http.HandlerFunc(authController.SignUp),
 	))
 
-	router.Post("/auth/sign-out", manager.With(
-		http.HandlerFunc(authController.SignOut),
-	))
+	// router.Post("/auth/sign-out", manager.With(
+	// 	http.HandlerFunc(authController.SignOut),
+	// ))
 
 	router.Post("/auth/forgot-password", manager.With(
 		http.HandlerFunc(authController.ForgotPassword),

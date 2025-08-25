@@ -26,7 +26,7 @@ func NewAuthController(authService service.AuthService) *AuthController {
 // @Param data body auth.SignUpRequest true "Sign Up Request"
 // @Success 200 {object} user.User
 // @Failure 400 {object} response.Response
-// @Router /auth/sign-up [post]
+// @Router /api/auth/sign-up [post]
 func (c *AuthController) SignUp(w http.ResponseWriter, r *http.Request) {
 	var req auth.SignUpRequest
 	json.NewDecoder(r.Body).Decode(&req)
@@ -48,7 +48,7 @@ func (c *AuthController) SignUp(w http.ResponseWriter, r *http.Request) {
 // @Param data body auth.SignInRequest true "Sign In Request"
 // @Success 200 {object} auth.SignInResponse
 // @Failure 401 {object} response.Response
-// @Router /auth/sign-in [post]
+// @Router /api/auth/sign-in [post]
 func (c *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
 	var req auth.SignInRequest
 
@@ -71,7 +71,7 @@ func (c *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
 // @Param data body auth.SignOutRequest true "Sign Out Request"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
-// @Router /auth/sign-out [post]
+// @Router /api/auth/sign-out [post]
 func (c *AuthController) SignOut(w http.ResponseWriter, r *http.Request) {
 	var req auth.SignOutRequest
 	json.NewDecoder(r.Body).Decode(&req)
@@ -91,7 +91,7 @@ func (c *AuthController) SignOut(w http.ResponseWriter, r *http.Request) {
 // @Param data body auth.ForgotPasswordRequest true "Forgot Password Request"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
-// @Router /auth/forgot-password [post]
+// @Router /api/auth/forgot-password [post]
 func (c *AuthController) ForgotPassword(w http.ResponseWriter, r *http.Request) {
 	var req auth.ForgotPasswordRequest
 	json.NewDecoder(r.Body).Decode(&req)
