@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/user/update/{id}": {
+        "/api/admin/user/update/{id}": {
             "put": {
                 "security": [
                     {
@@ -88,7 +88,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/users": {
+        "/api/admin/users": {
             "get": {
                 "security": [
                     {
@@ -119,7 +119,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/users/delete/{id}": {
+        "/api/admin/users/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -171,7 +171,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/users/{id}": {
+        "/api/admin/users/{id}": {
             "get": {
                 "security": [
                     {
@@ -226,7 +226,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/forgot-password": {
+        "/api/auth/forgot-password": {
             "post": {
                 "description": "Send reset password email with token",
                 "consumes": [
@@ -266,7 +266,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/sign-in": {
+        "/api/auth/sign-in": {
             "post": {
                 "description": "Authenticate user and return JWT tokens",
                 "consumes": [
@@ -306,7 +306,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/sign-out": {
+        "/api/auth/sign-out": {
             "post": {
                 "description": "Invalidate refresh token and log user out",
                 "consumes": [
@@ -346,7 +346,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/sign-up": {
+        "/api/auth/sign-up": {
             "post": {
                 "description": "Create a new user account",
                 "consumes": [
@@ -386,7 +386,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos": {
+        "/api/todos": {
             "get": {
                 "security": [
                     {
@@ -417,7 +417,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos/create": {
+        "/api/todos/create": {
             "post": {
                 "security": [
                     {
@@ -468,7 +468,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos/delete/{id}": {
+        "/api/todos/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -520,7 +520,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos/update/{id}": {
+        "/api/todos/update/{id}": {
             "put": {
                 "security": [
                     {
@@ -584,7 +584,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos/{id}": {
+        "/api/todos/{id}": {
             "get": {
                 "security": [
                     {
@@ -639,7 +639,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/me": {
+        "/api/users/me": {
             "get": {
                 "security": [
                     {
@@ -905,7 +905,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "go-todo-api-36ta.onrender.com",
-	BasePath:         "/api",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Go Todos API",
 	Description:      "This is a sample server Todos server.",

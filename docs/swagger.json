@@ -16,9 +16,9 @@
         "version": "1.0"
     },
     "host": "go-todo-api-36ta.onrender.com",
-    "basePath": "/api",
+    "basePath": "/",
     "paths": {
-        "/admin/user/update/{id}": {
+        "/api/admin/user/update/{id}": {
             "put": {
                 "security": [
                     {
@@ -82,7 +82,7 @@
                 }
             }
         },
-        "/admin/users": {
+        "/api/admin/users": {
             "get": {
                 "security": [
                     {
@@ -113,7 +113,7 @@
                 }
             }
         },
-        "/admin/users/delete/{id}": {
+        "/api/admin/users/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -165,7 +165,7 @@
                 }
             }
         },
-        "/admin/users/{id}": {
+        "/api/admin/users/{id}": {
             "get": {
                 "security": [
                     {
@@ -220,7 +220,7 @@
                 }
             }
         },
-        "/auth/forgot-password": {
+        "/api/auth/forgot-password": {
             "post": {
                 "description": "Send reset password email with token",
                 "consumes": [
@@ -260,7 +260,7 @@
                 }
             }
         },
-        "/auth/sign-in": {
+        "/api/auth/sign-in": {
             "post": {
                 "description": "Authenticate user and return JWT tokens",
                 "consumes": [
@@ -300,7 +300,7 @@
                 }
             }
         },
-        "/auth/sign-out": {
+        "/api/auth/sign-out": {
             "post": {
                 "description": "Invalidate refresh token and log user out",
                 "consumes": [
@@ -340,7 +340,7 @@
                 }
             }
         },
-        "/auth/sign-up": {
+        "/api/auth/sign-up": {
             "post": {
                 "description": "Create a new user account",
                 "consumes": [
@@ -380,7 +380,7 @@
                 }
             }
         },
-        "/todos": {
+        "/api/todos": {
             "get": {
                 "security": [
                     {
@@ -411,7 +411,7 @@
                 }
             }
         },
-        "/todos/create": {
+        "/api/todos/create": {
             "post": {
                 "security": [
                     {
@@ -462,7 +462,7 @@
                 }
             }
         },
-        "/todos/delete/{id}": {
+        "/api/todos/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -514,7 +514,7 @@
                 }
             }
         },
-        "/todos/update/{id}": {
+        "/api/todos/update/{id}": {
             "put": {
                 "security": [
                     {
@@ -578,7 +578,7 @@
                 }
             }
         },
-        "/todos/{id}": {
+        "/api/todos/{id}": {
             "get": {
                 "security": [
                     {
@@ -633,7 +633,7 @@
                 }
             }
         },
-        "/users/me": {
+        "/api/users/me": {
             "get": {
                 "security": [
                     {

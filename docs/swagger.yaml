@@ -1,4 +1,4 @@
-basePath: /api
+basePath: /
 definitions:
   auth.ForgotPasswordRequest:
     properties:
@@ -149,7 +149,7 @@ info:
   title: Go Todos API
   version: "1.0"
 paths:
-  /admin/user/update/{id}:
+  /api/admin/user/update/{id}:
     put:
       consumes:
       - application/json
@@ -190,7 +190,7 @@ paths:
       summary: Update a user
       tags:
       - admin-user-controller
-  /admin/users:
+  /api/admin/users:
     get:
       consumes:
       - application/json
@@ -209,7 +209,7 @@ paths:
       summary: Get All
       tags:
       - admin-user-controller
-  /admin/users/{id}:
+  /api/admin/users/{id}:
     get:
       consumes:
       - application/json
@@ -244,7 +244,7 @@ paths:
       summary: Get user by ID
       tags:
       - admin-user-controller
-  /admin/users/delete/{id}:
+  /api/admin/users/delete/{id}:
     delete:
       consumes:
       - application/json
@@ -277,7 +277,7 @@ paths:
       summary: Delete a user
       tags:
       - admin-user-controller
-  /auth/forgot-password:
+  /api/auth/forgot-password:
     post:
       consumes:
       - application/json
@@ -303,7 +303,7 @@ paths:
       summary: Forgot Password
       tags:
       - auth-controller
-  /auth/sign-in:
+  /api/auth/sign-in:
     post:
       consumes:
       - application/json
@@ -329,7 +329,7 @@ paths:
       summary: User Sign In
       tags:
       - auth-controller
-  /auth/sign-out:
+  /api/auth/sign-out:
     post:
       consumes:
       - application/json
@@ -355,7 +355,7 @@ paths:
       summary: User Sign Out
       tags:
       - auth-controller
-  /auth/sign-up:
+  /api/auth/sign-up:
     post:
       consumes:
       - application/json
@@ -381,7 +381,7 @@ paths:
       summary: User Sign Up
       tags:
       - auth-controller
-  /todos:
+  /api/todos:
     get:
       consumes:
       - application/json
@@ -400,7 +400,7 @@ paths:
       summary: Get All
       tags:
       - todo-controller
-  /todos/{id}:
+  /api/todos/{id}:
     get:
       consumes:
       - application/json
@@ -435,7 +435,7 @@ paths:
       summary: Get todo by ID
       tags:
       - todo-controller
-  /todos/create:
+  /api/todos/create:
     post:
       consumes:
       - application/json
@@ -467,7 +467,7 @@ paths:
       summary: Create Todos Endpoint
       tags:
       - todo-controller
-  /todos/delete/{id}:
+  /api/todos/delete/{id}:
     delete:
       consumes:
       - application/json
@@ -500,7 +500,7 @@ paths:
       summary: Delete a todo
       tags:
       - todo-controller
-  /todos/update/{id}:
+  /api/todos/update/{id}:
     put:
       consumes:
       - application/json
@@ -541,7 +541,7 @@ paths:
       summary: Update a todo
       tags:
       - todo-controller
-  /users/me:
+  /api/users/me:
     get:
       consumes:
       - application/json
