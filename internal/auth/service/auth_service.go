@@ -79,9 +79,14 @@ func (s *authService) ForgotPassword(req auth.ForgotPasswordRequest) error {
 	if err != nil {
 		return errors.New("user not found")
 	}
-	resetToken, _ := jwtutil.GenerateResetToken(user.ID, config.AppConfig.JWT.Secret)
+	resetToken, _ := utils.GenerateHashedToken(32)
 	// send resetToken via email here
-	_ = resetToken
+	user.ResetToken = resetToken
+	err = s.userRepo.Update(user)
+
+	if err != nil {
+		return errors.New("reset token update failed")
+	}
 	return nil
 }
 

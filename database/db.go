@@ -1,8 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"log"
 
+	config "github.com/noyandey88/go-todo-app/configs"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -10,20 +12,20 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	// cfg := config.LoadConfig()
+	cfg := config.LoadConfig()
 
-	// dsn := fmt.Sprintf(
-	// 	"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
-	// 	cfg.Database.Host,
-	// 	cfg.Database.User,
-	// 	cfg.Database.Password,
-	// 	cfg.Database.Name,
-	// 	cfg.Database.Port,
-	// 	cfg.Database.SSLMode,
-	// 	cfg.Database.TimeZone,
-	// )
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
+		cfg.Database.Host,
+		cfg.Database.User,
+		cfg.Database.Password,
+		cfg.Database.Name,
+		cfg.Database.Port,
+		cfg.Database.SSLMode,
+		cfg.Database.TimeZone,
+	)
 
-	dsn := "postgresql://go_todo_user:IvBsTzM7xglvA3DF5jdR6iGg6WCsWlsf@dpg-d2ljrnbuibrs73fba1v0-a.singapore-postgres.render.com/go_todo"
+	// dsn := "postgresql://go_todo_user:IvBsTzM7xglvA3DF5jdR6iGg6WCsWlsf@dpg-d2ljrnbuibrs73fba1v0-a.singapore-postgres.render.com/go_todo"
 
 	// dsn := "host=localhost user=postgres password=1234 dbname=go-ecommerce port=5432 sslmode=disable TimeZone=Asia/Dhaka"
 

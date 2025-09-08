@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "go-todo-api-36ta.onrender.com",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/api/admin/user/update/{id}": {

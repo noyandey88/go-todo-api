@@ -18,7 +18,7 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host go-todo-api-36ta.onrender.com
+// @host localhost:8080
 // @BasePath /
 
 // @securityDefinitions.apikey BearerAuth
@@ -27,6 +27,7 @@ import (
 // @description Provide the access token directly, without "Bearer ".
 func main() {
 	// connect database
+	// prod host - go-todo-api-36ta.onrender.com
 	database.ConnectDatabase()
 
 	// connect server
